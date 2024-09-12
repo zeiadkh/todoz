@@ -15,7 +15,7 @@ import { API_URL } from '../service/auth';
 import { useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { promises } from 'dns';
+import { Alert } from '@mui/material';
 
 const settings = ['Dashboard', 'Logout'];
 function Navbar() {
@@ -32,12 +32,15 @@ function Navbar() {
         
       } catch (error) {
         console.error("Error in user:", error);
+        setError(error)
+        throw error
       }
     };
 
     fetchData(); 
   }, []);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [error, setError] = React.useState<unknown | null>(null)
   const [userData, setUserData] = React.useState<{id: number, username: string}>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -49,6 +52,7 @@ function Navbar() {
   };
 
   return (
+    
     <AppBar position="static" style={{width: "100%", top: 0}}>
       <Container >
         <Toolbar disableGutters sx={{display: "flex", justifyContent: "space-between"}}>
@@ -122,8 +126,8 @@ function Navbar() {
           <Theme />
          </Box>
         </Toolbar>
-        
       </Container>
+      <>{ error && <Alert severity='error'>{error.message}</Alert>}</>
     </AppBar>
   );
 }

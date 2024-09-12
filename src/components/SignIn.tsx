@@ -10,10 +10,13 @@ import { useDispatch } from "react-redux";
 import { Login } from "../store/actions/authAction";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie"
+import { useState } from "react";
 
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [usernameError, setUsernameError] = useState(null)
+  const [passwordError, setPasswordError] = useState(null)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,15 +25,19 @@ export default function SignIn() {
       username: data.get("username")?.toString() || "",
       password: data.get("password")?.toString() || "",
     };
-    // console.log(formData);
-    const res = await login(formData);
+    try {
+      const res = await login(formData);
     // console.log("submitted");
-    dispatch(Login(res.token));
-    res.token && Cookies.set('token', res.token, {expires: 3})
-    // console.log(useSelector(state => state.auth))
-    // document.cookie = `token = ${res.token}`;
+      dispatch(Login(res.token));
+      res.token && Cookies.set('token', res.token, {expires: 3})
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error)
+      error.response.data.message.includes('password') && setPasswordError(error.response.data.message)
+      error.response.data.message.includes('User') && setUsernameError(error.response.data.message)
+      
+    }
 
-    navigate("/", { replace: true });
   };
 
   return (
@@ -48,6 +55,8 @@ export default function SignIn() {
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
+          error={!!usernameError}
+          helperText={usernameError}
             margin="normal"
             required
             fullWidth
@@ -58,12 +67,14 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+            error={!!passwordError}
+            helperText={passwordError}
             margin="normal"
             required
             fullWidth
             name="password"
             label="Password"
-            type="text"
+            type="password"
             id="password"
             autoComplete="current-password"
           />

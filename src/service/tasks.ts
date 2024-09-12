@@ -53,8 +53,8 @@ export const updateTask = async (taskData: Task, id: number) => {
 
     return response.data;
   } catch (error) {
-    console.error("Error in updateTask:", error);
-    throw error;
+    // console.error("Error in updateTask:", error);
+    throw new Error (error);
   }
 };
 

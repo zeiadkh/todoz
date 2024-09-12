@@ -38,7 +38,8 @@ export const fetchTasks = () => async (dispatch: any) => {
     // console.log(response)
     dispatch(getTasks(response));
   } catch (error: any) {
-    console.error(error);
+    // console.error(error);
+    // alert(error?.response?.data?.message)
     throw new Error(error?.response?.data?.message);
   }
 };
