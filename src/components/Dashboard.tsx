@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Task, createTask } from "../service/tasks";
-import Cookies from "js-cookie";
 import {  addTask, fetchTasks } from "../store/actions/taskAction";
 import {
   Box,
@@ -11,13 +10,13 @@ import {
   Input,
 } from "@mui/material";
 import { useNavigate } from "react-router";
+// import { UnknownAction } from "redux";
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   useEffect(() => {
-    const userToken = Cookies.get("token") || "";
-    dispatch(fetchTasks(userToken));
-  }, []);
+    dispatch(fetchTasks());
+  }, );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
       event.preventDefault();

@@ -32,7 +32,7 @@ export const register = async (
         return result
         // console.log(result, '5ara');
         
-    } catch (error) {
+    } catch (error: any) {
         return {error: error?.response?.data?.message || error}
     }
 //   console.log((await response).status)

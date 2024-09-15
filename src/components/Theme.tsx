@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { light, dark } from "../store/actions/themeAction";
 
 export default function Theme() {
-  const currentTheme = useSelector((state) => state.theme);
+  const currentTheme = useSelector((state: {theme: string}) => state.theme);
   const dispatch = useDispatch();
   const theme = useTheme();
 

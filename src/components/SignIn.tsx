@@ -31,7 +31,7 @@ export default function SignIn() {
       dispatch(Login(res.token));
       res.token && Cookies.set('token', res.token, {expires: 3})
       navigate("/", { replace: true });
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
       error.response.data.message.includes('password') && setPasswordError(error.response.data.message)
       error.response.data.message.includes('User') && setUsernameError(error.response.data.message)

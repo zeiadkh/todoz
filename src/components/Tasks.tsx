@@ -11,14 +11,13 @@ import React, { useEffect, useState } from "react";
 import { Task, updateTask } from "../service/tasks";
 import CheckBox from "@mui/material/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
 import { fetchTasks, toggleComplete } from "../store/actions/taskAction";
 import { Delete, Edit } from "@mui/icons-material";
 import Dashboard from "./Dashboard";
 import { removeTask } from "../store/actions/taskAction";
 import EditTaskForm from "./EditTaskForm";
 import { makeStyles } from '@mui/styles';
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   myBadge: {
     minWidth: "max-content"
   },
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const TaskComponent = (task: Task) => {
   const classes = useStyles()
   const dispatch = useDispatch();
-  const [state, setState] = useState(null);
+  // const [state, setState] = useState(null);
   const [openForm, setOpenForm] = useState(false);
 
   const updateTaskHandler = async () => {
@@ -40,7 +39,7 @@ const TaskComponent = (task: Task) => {
     const taskData = { completed: !task.completed };
     const resp = await updateTask(taskData, task.id || -1);
     // console.log(resp);
-    setState(resp);
+    // setState(resp);
     dispatch(toggleComplete(resp.id));
   };
 
@@ -121,7 +120,7 @@ const TaskComponent = (task: Task) => {
 
 const Tasks = () => {
   const dispatch = useDispatch();
-  let { tasks } = useSelector((state) => state.tasks);
+  let { tasks } = useSelector((state: any) => state.tasks);
   tasks = tasks[0] || [];
   const unCompletedTasks: Task[] = [];
   const completedTasks: Task[] = [];
@@ -130,9 +129,8 @@ const Tasks = () => {
   );
   // console.log(state)
   useEffect(() => {
-    const token = Cookies.get("token") || "";
-    dispatch(fetchTasks(token) as any);
-  }, []);
+    dispatch(fetchTasks())
+  }, [dispatch]);
 
   return (
     <Box

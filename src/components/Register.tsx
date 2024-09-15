@@ -8,7 +8,7 @@ import { Register } from "../store/actions/authAction";
 // import { ToastContainer, toast } from "react-toastify";
 
 export default function SignUp() {
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -26,22 +26,22 @@ export default function SignUp() {
       password: data.get("password")?.toString() || "",
       confirmPassword: data.get("confirmPassword")?.toString() || "",
     };
-    const res = await register(formData);
-    console.log(res, "register")
+    const res: any = await register(formData);
+    // console.log(res, "register")
     if (!res.error) {
       // toast("Account Created Successfully");
-      dispatch(Register({type: "Register_Success"}))
+      dispatch(Register())
       navigate("/login", { replace: true });
     } else {
       const errArray = res.error;
-      setError(true);
+      // setError(true);
 
       setUsernameError("");
       setEmailError("");
       setPasswordError("");
       setConfirmPasswordError("");
       typeof errArray !== "string" &&
-        errArray?.forEach((err) => {
+        errArray?.forEach((err: any) => {
           if (err.includes("username")) setUsernameError(err);
           if (err.includes("email")) setEmailError(err);
           if (err.includes("password") && !err.includes("confirmed"))
