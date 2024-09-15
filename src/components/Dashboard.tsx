@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Task, createTask } from "../service/tasks";
 import {  addTask, fetchTasks } from "../store/actions/taskAction";
 import {
@@ -10,9 +9,10 @@ import {
   Input,
 } from "@mui/material";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "./Tasks";
 // import { UnknownAction } from "redux";
 const Dashboard: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(fetchTasks());

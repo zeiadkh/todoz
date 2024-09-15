@@ -49,7 +49,7 @@ export const toggleTask = (taskData: Task, id: number) => async (dispatch: any) 
     // console.log(taskData)
     const response = task.updateTask(taskData, id)
     dispatch({type: TOGGLE_COMPLETE, payload: id})
-    const data = await response
+    await response
     // console.log(data, "from toggle action")
   } catch (error) {
     console.log(error)
@@ -58,7 +58,7 @@ export const toggleTask = (taskData: Task, id: number) => async (dispatch: any) 
 
 export const removeTask = (id: number) => async (dispatch:any )=>{
   try {
-    const response = task.deleteTask(id)
+    await task.deleteTask(id)
     dispatch({type: DELETE_TASK, payload: id})
     
   } catch (error) {

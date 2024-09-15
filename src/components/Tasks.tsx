@@ -23,11 +23,30 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+////////
 
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+// import { AppState } from './store'; // Replace with your actual state interface
+interface AppState {}
+// Define the AppThunk type for thunk actions
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppState,
+  unknown,
+  AnyAction
+>;
+
+// This should be added when using the useDispatch hook in your components
+// import { useDispatch } from 'react-redux';
+
+// Get the correctly typed dispatch
+export const useAppDispatch = () => useDispatch<ThunkDispatch<AppState, void, AnyAction>>();
+//end{code}
 
 const TaskComponent = (task: Task) => {
   const classes = useStyles()
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // const [state, setState] = useState(null);
   const [openForm, setOpenForm] = useState(false);
 
@@ -118,8 +137,9 @@ const TaskComponent = (task: Task) => {
   );
 };
 
+
 const Tasks = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   let { tasks } = useSelector((state: any) => state.tasks);
   tasks = tasks[0] || [];
   const unCompletedTasks: Task[] = [];
